@@ -5,18 +5,18 @@ from io import StringIO
 import os
 
 def convertToSPC(longitude, latitude):
-        epsg_code = stateplane.identify(longitude, latitude)
-        short_name = stateplane.identify(longitude, latitude, fmt='short')
-        fips_code = stateplane.identify(longitude, latitude, fmt='fips')
-        easting, northing = stateplane.from_lonlat(longitude, latitude)
-        results = {
+    epsg_code = stateplane.identify(longitude, latitude)
+    short_name = stateplane.identify(longitude, latitude, fmt='short')
+    fips_code = stateplane.identify(longitude, latitude, fmt='fips')
+    easting, northing = stateplane.from_lonlat(longitude, latitude)
+    results = {
         'epsg_code': epsg_code,
         'short_name': short_name,
         'fips_code': fips_code,
         'easting': easting,
         'northing': northing,
-        }
-        return results
+    }
+    return results
 
 def export_to_csv(results_df):
     """
@@ -54,6 +54,28 @@ for i in range(1, 11):
     with cols[3]:
         coordinates_input = st.text_input("Latitude, Longitude", key=f"coordinates_{i}", help='Enter as "latitude, longitude"')
     data_points_input.append({"Include": include_point, "Point Name": point_name, "ATS No.": ats_no, "Coordinates": coordinates_input})
+
+map_data = []
+for point_data in data_points_input:
+    if point_data['Include']:
+        coordinates_str = point_data['Coordinates']
+        try:
+            latitude_str, longitude_str = map(str.strip, coordinates_str.split(','))
+            latitude = float(latitude_str)
+            longitude = float(longitude_str)
+            map_data.append([latitude, longitude, point_data['Point Name']])
+        except ValueError:
+            pass  # Ignore invalid coordinate formats for the map
+        except Exception as e:
+            pass
+
+if map_data:
+    st.subheader("Map of Input Points")
+    map_df = pd.DataFrame(map_data, columns=['latitude', 'longitude', 'point_name'])
+    st.map(map_df)
+else:
+    st.subheader("Map of Input Points")
+    st.info("Enter latitude and longitude coordinates to see them on the map.")
 
 if st.button("Convert Selected Coordinates"):
     selected_data_points = [point for point in data_points_input if point['Include']]
