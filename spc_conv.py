@@ -32,9 +32,9 @@ def export_to_csv(results_df):
     results_df.to_csv(csv_buffer, index=False)
     return csv_buffer.getvalue()
 
-st.title("State Plane Coordinate Conversion for Multiple Points")
+st.title("SRI's State Plane Coordinate Conversion for Control Points")
 
-project_name = st.text_input("Project Name", value="SPC_Conversion")
+project_name = st.text_input("Project Name", value="Enter Project Name")
 st.subheader("Enter up to 10 Data Points (Select points to include)")
 
 data_points_input = []
