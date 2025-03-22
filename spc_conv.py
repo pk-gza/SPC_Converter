@@ -33,7 +33,7 @@ def export_to_csv(results_df):
     return csv_buffer.getvalue()
 
 st.title("SRI's SPC APP")
-st.subheader("State Plane Coordinate Conversion for Control Points")
+st.subheader("State Plane Coordinate Conversion for Backsights")
 
 project_name = st.text_input("Project Name", value="Enter Project Name")
 st.subheader("Enter up to 10 Data Points (Select points to include)")
