@@ -32,18 +32,20 @@ def export_to_csv(results_df):
     results_df.to_csv(csv_buffer, index=False)
     return csv_buffer.getvalue()
 
-st.title("SRI's SPC App")
+st.title("SRI's SPC APP")
 st.subheader("State Plane Coordinate Conversion for Control Points")
 
 project_name = st.text_input("Project Name", value="Enter Project Name")
 st.subheader("Enter up to 10 Data Points (Select points to include)")
+
+select_all = st.checkbox("Select All")
 
 data_points_input = []
 ats_options = [1, 2, 3, 4, 5, 6, 7, 8]
 for i in range(1, 11):
     cols = st.columns([0.1, 1, 1, 2])
     with cols[0]:
-        include_point = st.checkbox("", value=True, key=f"include_{i}")
+        include_point = st.checkbox("", value=select_all, key=f"include_{i}")
     with cols[1]:
         point_name_default = f"BS-{i:02d}"
         point_name = st.text_input("Point Name", value=point_name_default, key=f"point_name_{i}")
