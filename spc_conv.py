@@ -19,24 +19,15 @@ def convertToSPC(longitude, latitude):
     return results
 
 def export_to_csv(results_df):
-    """
-    Exports the results DataFrame to a CSV string.
-
-    Args:
-        results_df (pd.DataFrame): DataFrame containing the conversion results.
-
-    Returns:
-        str: CSV formatted string of the results.
-    """
     csv_buffer = StringIO()
     results_df.to_csv(csv_buffer, index=False)
     return csv_buffer.getvalue()
 
-st.title("SRI's SPC APP")
-st.subheader("State Plane Coordinate Conversion for Backsights")
+st.title("State Plane Conversion App")
+st.subheader("WGS-84(Lat,Long) to State Plane Coordinate Conversion for Backsights")
 
 project_name = st.text_input("Project Name", value="Enter Project Name")
-st.subheader("Enter up to 10 Data Points (Select points to include)")
+st.subheader("Enter up to 10 Data Points (Select points to convert)")
 
 select_all = st.checkbox("Select All")
 
@@ -143,7 +134,6 @@ if st.button("Convert Selected Coordinates"):
                 mime="text/csv",
             )
 
-# --- Section for keeping track of generated CSVs ---
 st.sidebar.subheader("Generated CSV Files")
 if 'generated_csv_files' not in st.session_state:
     st.session_state['generated_csv_files'] = []
@@ -155,3 +145,8 @@ if st.button("Record Last Download"):
     if 'csv_filename' in locals():
         if csv_filename not in st.session_state['generated_csv_files']:
             st.session_state['generated_csv_files'].append(csv_filename)
+
+st.markdown("""
+---
+© 2025 GZA SRI - All Rights Reserved
+""", unsafe_allow_html=True)
